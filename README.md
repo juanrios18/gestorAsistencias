@@ -26,3 +26,8 @@ Este proyecto es un sistema web desarrollado para gestionar las asistencias de l
 - **Super Administrador**: Gestiona regionales, centros y coordinadores.
 - **Coordinador**: Crea programas, ambientes, fichas e instructores.
 - **Instructor**: Toma lista de asistencia y verifica reportes.
+
+## Usuarios creador predeterminados
+- **Super Administrador**: Usuario: Juan Pablo,  Contraseña: 12345
+- **Coordinador**: Usuario: Angie Dahiana Rios, Contraseña: 98765
+- **Instructor**: Usuario: Jhon Alexander Pineda, Contraseña: 12345
