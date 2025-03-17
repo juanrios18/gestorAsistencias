@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     if ($coordinator->createInstructor($username, $password)) {
-        $success = "Instructor creado exitosamente";
         redirect('dashboard.php');
     } else {
         $error = "Error al crear el instructor";

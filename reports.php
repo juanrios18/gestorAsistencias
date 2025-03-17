@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ficha_id'])) {
         <h1 class="text-3xl font-bold text-gray-700 mb-6">Reportes de Asistencias</h1>
         <div class="flex justify-end mb-4">
             <form action="dashboard.php" method="POST">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Cerrar Sesión</button>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
             </form>
         </div>
         <!-- Selector de Fichas -->

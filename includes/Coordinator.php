@@ -74,22 +74,28 @@ class Coordinator
     }
     public function getReportesPorFicha($ficha_id) {
         $stmt = $this->db->prepare("
-            SELECT a.id AS aprendiz_id, a.name AS aprendiz_name, 
-                                 COUNT(CASE WHEN asis.asistio = 0 THEN 1 END) AS faltas
-                          FROM aprendices a
-                          LEFT JOIN asistencias asis ON a.id = asis.aprendiz_id
-                          WHERE a.ficha_id = ?
-                          GROUP BY a.id, a.name;
+            SELECT 
+                a.id AS aprendiz_id, 
+                a.name AS aprendiz_name,
+                COALESCE(SUM(CASE WHEN asis.asistio = 0 THEN 1 ELSE 0 END), 0) AS faltas
+            FROM 
+                aprendices a
+            LEFT JOIN 
+                asistencias asis ON a.id = asis.aprendiz_id
+            WHERE 
+                a.ficha_id = ?
+            GROUP BY 
+                a.id, a.name
         ");
-
+    
         if (!$stmt) {
             die("Error en la consulta: " . $this->db->error);
         }
-
+    
         $stmt->bind_param("i", $ficha_id);
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 }

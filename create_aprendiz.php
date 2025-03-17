@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ficha_id = $_POST['ficha_id'];
 
     if ($coordinator->createAprendiz($name, $ficha_id)) {
-        $success = "Aprendiz creado exitosamente";
         redirect('dashboard.php');
     } else {
         $error = "Error al crear el aprendiz";

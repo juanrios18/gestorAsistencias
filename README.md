@@ -24,10 +24,19 @@ Este proyecto es un sistema web desarrollado para gestionar las asistencias de l
 ## Uso
 
 - **Super Administrador**: Gestiona regionales, centros y coordinadores.
-- **Coordinador**: Crea programas, ambientes, fichas e instructores.
+- **Coordinador**: Crea programas, ambientes, fichas, instructores y vigilar reporte de inasistencia de aprendices.
 - **Instructor**: Toma lista de asistencia y verifica reportes.
+
+---
 
 ## Usuarios creador predeterminados
 - **Super Administrador**: Usuario: Juan Pablo,  Contraseña: 12345
 - **Coordinador**: Usuario: Angie Dahiana Rios, Contraseña: 98765
 - **Instructor**: Usuario: Jhon Alexander Pineda, Contraseña: 12345
+
+--- 
+
+## Pasos a seguir
+- **Para ejecutar**: ingresar en el navegador: http://localhost/gestorAsistencias/login.php
+- **Login**: Para agregar a otro coordinador o super-admin deben de ingresar con el super-admin ya existente o eliminarlo y crear uno nuevo desde register por que como el sistema ya reconoce que hay uno creado no dejara registrar a nadie mas manualmente.
+- **Al ingresar**: Dependiendo como entres ya podras ver las funciones que tenga cada uno y podras ejecutar y probar las que quieras.

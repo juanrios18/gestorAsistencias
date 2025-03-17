@@ -47,10 +47,10 @@ if (isset($_GET['logout'])) {
             <?php elseif ($user['role'] == 'coordinator'): ?>
                 <h2 class="text-xl font-bold mb-4">Funciones de Coordinador</h2>
                 <ul>
-                    <li><a href="create_instructor.php" class="text-blue-500 hover:underline">Agregar Instructor</a></li>
                     <li><a href="create_program.php" class="text-blue-500 hover:underline">Crear Programa</a></li>
-                    <li><a href="create_ambiente.php" class="text-blue-500 hover:underline">Crear Ambiente</a></li>
                     <li><a href="create_ficha.php" class="text-blue-500 hover:underline">Crear Ficha</a></li>
+                    <li><a href="create_ambiente.php" class="text-blue-500 hover:underline">Crear Ambiente</a></li>
+                    <li><a href="create_instructor.php" class="text-blue-500 hover:underline">Agregar Instructor</a></li>
                     <li><a href="create_aprendiz.php" class="text-blue-500 hover:underline">Crear Aprendiz</a></li>
                     <li><a href="reports.php" class="text-blue-500 hover:underline">Ver Reporte de Estudiantes</a></li>
                 </ul>

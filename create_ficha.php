@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ambiente_id = $_POST['ambiente_id'];
     $name = $_POST['name'];
     if ($coordinator->createFicha($programa_id, $ambiente_id, $name)) {
-        $success = "Ficha creada exitosamente";
         redirect('dashboard.php');
     } else {
         $error = "Error al crear la ficha";

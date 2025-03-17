@@ -15,17 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $ficha_id = $_POST['ficha_id'];
         $fecha = $_POST['fecha'];
 
-        if (!empty($_POST['asistio']) && is_array($_POST['asistio'])) {
-            foreach ($_POST['asistio'] as $aprendiz_id => $asistio) {
-                $asistio = ($asistio == '1') ? 1 : 0;
-                $instructor->tomarLista($aprendiz_id, $fecha, $asistio);
-            }
-            $_SESSION['success'] = "Asistencia registrada exitosamente";
-            header('Location: dashboard.php');
-            exit();
-        } else {
-            $error = "No se seleccionaron aprendices para tomar lista.";
+        // Obtener todos los aprendices de esta ficha
+        $todos_aprendices = $instructor->getAprendices($ficha_id);
+
+        // Procesar cada aprendiz
+        foreach ($todos_aprendices as $aprendiz) {
+            $aprendiz_id = $aprendiz['id'];
+
+            // Verificar si el aprendiz fue marcado como presente
+            $asistio = isset($_POST['asistio'][$aprendiz_id]) ? 1 : 0;
+
+            // Registrar asistencia para todos (presente o ausente)
+            $instructor->tomarLista($aprendiz_id, $fecha, $asistio);
         }
+        header('Location: dashboard.php');
+        exit();
     }
 }
 
@@ -34,12 +38,14 @@ $fichas = $instructor->getFichas();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomar Lista</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Tomar Lista</h1>
@@ -48,7 +54,7 @@ $fichas = $instructor->getFichas();
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
             </form>
         </div>
-        
+
         <?php if (isset($_SESSION['success'])): ?>
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <span class="block sm:inline"><?php echo $_SESSION['success']; ?></span>
@@ -92,37 +98,38 @@ $fichas = $instructor->getFichas();
     </div>
 
     <script>
-    document.getElementById('ficha_id').addEventListener('change', function() {
-        let fichaId = this.value;
-        let aprendicesContainer = document.getElementById('aprendices-container');
+        document.getElementById('ficha_id').addEventListener('change', function() {
+            let fichaId = this.value;
+            let aprendicesContainer = document.getElementById('aprendices-container');
 
-        if (fichaId) {
-            fetch(`get_aprendices.php?ficha_id=${fichaId}`)
-                .then(response => response.json())
-                .then(data => {
-                    let html = '';
-                    if (data.length > 0) {
-                        data.forEach(aprendiz => {
-                            html += `
-                                <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="aprendiz_${aprendiz.id}" name="asistio[${aprendiz.id}]" value="1" class="mr-2">
-                                    <label for="aprendiz_${aprendiz.id}">${aprendiz.name}</label>
-                                </div>
-                            `;
-                        });
-                    } else {
-                        html = "<p>No hay aprendices en esta ficha.</p>";
-                    }
-                    aprendicesContainer.innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error cargando aprendices:', error);
-                    aprendicesContainer.innerHTML = "<p>Error al cargar los aprendices.</p>";
-                });
-        } else {
-            aprendicesContainer.innerHTML = "<p>Seleccione una ficha para ver los aprendices.</p>";
-        }
-    });
+            if (fichaId) {
+                fetch(`get_aprendices.php?ficha_id=${fichaId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = '';
+                        if (data.length > 0) {
+                            data.forEach(aprendiz => {
+                                html += `
+                                        <div class="flex items-center mb-2">
+                                            <input type="checkbox" id="aprendiz_${aprendiz.id}" name="asistio[${aprendiz.id}]" value="1" class="mr-2">
+                                            <label for="aprendiz_${aprendiz.id}">${aprendiz.name}</label>
+                                        </div>
+                                        `;
+                            });
+                        } else {
+                            html = "<p>No hay aprendices en esta ficha.</p>";
+                        }
+                        aprendicesContainer.innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error cargando aprendices:', error);
+                        aprendicesContainer.innerHTML = "<p>Error al cargar los aprendices.</p>";
+                    });
+            } else {
+                aprendicesContainer.innerHTML = "<p>Seleccione una ficha para ver los aprendices.</p>";
+            }
+        });
     </script>
 </body>
+
 </html>

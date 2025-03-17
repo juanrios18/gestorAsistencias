@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $role = $_POST['role'];
 
     if ($user->register($username, $password, $role)) {
-        $success = "Usuario registrado exitosamente";
         redirect('dashboard.php');
     } else {
         $error = "Error al registrar el usuario";
