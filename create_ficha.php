@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     if ($coordinator->createFicha($programa_id, $ambiente_id, $name)) {
         $success = "Ficha creada exitosamente";
+        redirect('dashboard.php');
     } else {
         $error = "Error al crear la ficha";
     }
@@ -44,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form method="POST">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="programa_id">Programa</label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="programa_id" name="programa_id">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="programa_id" name="programa_id" required>
+                <option value="">--------</option>
                     <?php
                     $programas = $coordinator->getProgramas();
                     foreach ($programas as $programa): ?>
@@ -54,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="ambiente_id">Ambiente</label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ambiente_id" name="ambiente_id">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ambiente_id" name="ambiente_id" required>
+                    <option value="">--------</option>
                     <?php
                     $ambientes = $coordinator->getAmbientes();
                     foreach ($ambientes as $ambiente): ?>
@@ -63,8 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre de la Ficha</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Nombre de la Ficha">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Numero de la Ficha</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Numero de la Ficha" required>
             </div>
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Crear Ficha</button>

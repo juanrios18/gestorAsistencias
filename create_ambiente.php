@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     if ($coordinator->createAmbiente($name)) {
         $success = "Ambiente creado exitosamente";
+        redirect('dashboard.php');
     } else {
         $error = "Error al crear el ambiente";
     }

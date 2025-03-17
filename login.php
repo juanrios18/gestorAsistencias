@@ -2,6 +2,7 @@
 session_start();
 require 'includes/Database.php';
 require 'includes/User.php';
+require 'includes/functions.php'; // Asegúrate de incluir functions.php
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -12,7 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($loggedInUser) {
         $_SESSION['user'] = $loggedInUser;
-        header('Location: dashboard.php');
+        // Redirigir al dashboard después del login
+        redirect('dashboard.php');
     } else {
         $error = "Usuario o contraseña incorrectos";
     }

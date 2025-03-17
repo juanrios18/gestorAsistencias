@@ -2,6 +2,7 @@
 session_start();
 require 'includes/Database.php';
 require 'includes/User.php';
+require 'includes/functions.php';
 
 $user = new User();
 
@@ -12,7 +13,6 @@ $totalUsers = $row['total'];
 
 // Si ya hay usuarios registrados, solo el super_admin puede registrar nuevos usuarios
 if ($totalUsers > 0) {
-    require 'includes/functions.php';
     checkPermission('super_admin');
 }
 
@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($user->register($username, $password, $role)) {
         $success = "Usuario registrado exitosamente";
+        redirect('dashboard.php');
     } else {
         $error = "Error al registrar el usuario";
     }
@@ -53,18 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form method="POST">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Usuario</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text" placeholder="Usuario">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text" placeholder="Usuario" required>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Contraseña</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" placeholder="Contraseña">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" placeholder="Contraseña" required>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Rol</label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="role" name="role">
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="role" name="role" required>
+                    <option value="">-----------</option>
                     <option value="super_admin">Super Administrador</option>
                     <option value="coordinator">Coordinador</option>
-                    <option value="instructor">Instructor</option>
                 </select>
             </div>
             <div class="flex items-center justify-between">
