@@ -7,6 +7,11 @@ class User {
         $this->db = Database::getInstance()->getConnection();
     }
 
+    // Obtener la conexión a la base de datos
+    public function getConnection() {
+        return $this->db;
+    }
+
     public function login($username, $password) {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->bind_param("s", $username);

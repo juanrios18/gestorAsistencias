@@ -1,17 +1,26 @@
 <?php
 session_start();
-require 'includes/functions.php';
-checkPermission('super_admin'); // Solo el super administrador puede registrar usuarios.
-
 require 'includes/Database.php';
 require 'includes/User.php';
 
 $user = new User();
 
+// Verificar si ya hay usuarios registrados
+$result = $user->getConnection()->query("SELECT COUNT(*) AS total FROM users");
+$row = $result->fetch_assoc();
+$totalUsers = $row['total'];
+
+// Si ya hay usuarios registrados, solo el super_admin puede registrar nuevos usuarios
+if ($totalUsers > 0) {
+    require 'includes/functions.php';
+    checkPermission('super_admin');
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];
+
     if ($user->register($username, $password, $role)) {
         $success = "Usuario registrado exitosamente";
     } else {
@@ -53,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Rol</label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="role" name="role">
+                    <option value="super_admin">Super Administrador</option>
                     <option value="coordinator">Coordinador</option>
                     <option value="instructor">Instructor</option>
                 </select>
