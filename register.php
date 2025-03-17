@@ -41,6 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Registro</h1>
+        <div class="flex justify-end mb-4">
+            <form action="dashboard.php" method="POST">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
+            </form>
+        </div>
         <?php if (isset($success)): ?>
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <span class="block sm:inline"><?php echo $success; ?></span>

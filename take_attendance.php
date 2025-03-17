@@ -45,7 +45,7 @@ $fichas = $instructor->getFichas();
         <h1 class="text-2xl font-bold mb-4">Tomar Lista</h1>
         <div class="flex justify-end mb-4">
             <form action="dashboard.php" method="POST">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Cerrar Sesión</button>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
             </form>
         </div>
         
