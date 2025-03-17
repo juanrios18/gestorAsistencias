@@ -28,14 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Crear Ficha</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Crear Ficha</h1>
-        <div class="flex justify-end mb-4">
-            <form action="dashboard.php" method="POST">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
-            </form>
-        </div>
+<body class="bg-green-50 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
+        <h1 class="text-2xl font-bold text-green-700 mb-6 text-center">Crear Ficha</h1>
+        
         <?php if (isset($success)): ?>
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <span class="block sm:inline"><?php echo $success; ?></span>
@@ -46,35 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <span class="block sm:inline"><?php echo $error; ?></span>
             </div>
         <?php endif; ?>
-        <form method="POST">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="programa_id">Programa</label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="programa_id" name="programa_id" required>
-                <option value="">--------</option>
-                    <?php
-                    $programas = $coordinator->getProgramas();
-                    foreach ($programas as $programa): ?>
+        
+        <form method="POST" class="space-y-4">
+            <div>
+                <label class="block text-green-700 font-bold mb-2" for="programa_id">Programa</label>
+                <select class="w-full p-2 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500" id="programa_id" name="programa_id" required>
+                    <option value="">Seleccione un programa</option>
+                    <?php foreach ($coordinator->getProgramas() as $programa): ?>
                         <option value="<?php echo $programa['id']; ?>"><?php echo $programa['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="ambiente_id">Ambiente</label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ambiente_id" name="ambiente_id" required>
-                    <option value="">--------</option>
-                    <?php
-                    $ambientes = $coordinator->getAmbientes();
-                    foreach ($ambientes as $ambiente): ?>
+            
+            <div>
+                <label class="block text-green-700 font-bold mb-2" for="ambiente_id">Ambiente</label>
+                <select class="w-full p-2 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500" id="ambiente_id" name="ambiente_id" required>
+                    <option value="">Seleccione un ambiente</option>
+                    <?php foreach ($coordinator->getAmbientes() as $ambiente): ?>
                         <option value="<?php echo $ambiente['id']; ?>"><?php echo $ambiente['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Numero de la Ficha</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Numero de la Ficha" required>
+            
+            <div>
+                <label class="block text-green-700 font-bold mb-2" for="name">Número de la Ficha</label>
+                <input class="w-full p-2 border border-green-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500" id="name" name="name" type="text" placeholder="Ingrese el número de la ficha" required>
             </div>
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Crear Ficha</button>
+            
+            <div class="flex justify-between">
+                <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" type="submit">Crear Ficha</button>
+                <a href="dashboard.php" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400">Regresar</a>
             </div>
         </form>
     </div>

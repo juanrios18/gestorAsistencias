@@ -27,19 +27,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ficha_id'])) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-green-50 flex items-center justify-center min-h-screen">
 
-    <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold text-gray-700 mb-6">Reportes de Asistencias</h1>
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl">
+        <h1 class="text-3xl font-bold text-green-700 text-center mb-6">Reportes de Asistencias</h1>
+
+        <!-- Botón de regresar -->
         <div class="flex justify-end mb-4">
             <form action="dashboard.php" method="POST">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
+                <button type="submit" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
+                    Regresar
+                </button>
             </form>
         </div>
+
         <!-- Selector de Fichas -->
         <form method="POST" class="mb-6">
-            <label for="ficha_id" class="block text-lg font-semibold">Selecciona una ficha:</label>
-            <select name="ficha_id" id="ficha_id" required class="border p-2 rounded w-full">
+            <label for="ficha_id" class="block text-lg font-semibold text-gray-700">Selecciona una ficha:</label>
+            <select name="ficha_id" id="ficha_id" required class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="" disabled selected>Seleccione una ficha</option>
                 <?php foreach ($fichas as $ficha): ?>
                     <option value="<?php echo $ficha['id']; ?>">
@@ -47,24 +52,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ficha_id'])) {
                     </option>
                 <?php endforeach; ?>
             </select>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-3">Ver Reporte</button>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mt-3 transition w-full">
+                📄 Ver Reporte
+            </button>
         </form>
 
         <!-- Tabla de Reportes -->
         <?php if (!empty($reportes)): ?>
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <table class="w-full table-auto">
-                    <thead class="bg-blue-500 text-white">
+                    <thead class="bg-green-700 text-white">
                         <tr>
-                            <th class="py-3 px-4">Aprendiz</th>
-                            <th class="py-3 px-4">Faltas</th>
+                            <th class="py-3 px-4 text-left">📌 Aprendiz</th>
+                            <th class="py-3 px-4 text-center">🚫 Faltas</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($reportes as $reporte): ?>
-                            <tr class="border-b <?php echo ($reporte['faltas'] >= 3) ? 'bg-red-500 text-white' : 'hover:bg-gray-100'; ?>">
+                            <tr class="border-b <?php echo ($reporte['faltas'] >= 3) ? 'bg-red-500 text-white' : 'hover:bg-green-100'; ?>">
                                 <td class="py-3 px-4"><?php echo htmlspecialchars($reporte['aprendiz_name']); ?></td>
-                                <td class="py-3 px-4 text-center"><?php echo (int) $reporte['faltas']; ?></td>
+                                <td class="py-3 px-4 text-center font-bold"><?php echo (int) $reporte['faltas']; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

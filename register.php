@@ -11,11 +11,6 @@ $result = $user->getConnection()->query("SELECT COUNT(*) AS total FROM users");
 $row = $result->fetch_assoc();
 $totalUsers = $row['total'];
 
-// Si ya hay usuarios registrados, solo el super_admin puede registrar nuevos usuarios
-if ($totalUsers > 0) {
-    checkPermission('super_admin');
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -37,43 +32,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Registro</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Registro</h1>
-        <div class="flex justify-end mb-4">
-            <form action="dashboard.php" method="POST">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Regresar</button>
-            </form>
-        </div>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-96">
+        <h2 class="text-3xl font-bold text-center mb-6">Registro</h2>
+
         <?php if (isset($success)): ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline"><?php echo $success; ?></span>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 text-center">
+                <?php echo $success; ?>
             </div>
         <?php endif; ?>
+
         <?php if (isset($error)): ?>
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                <span class="block sm:inline"><?php echo $error; ?></span>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-center">
+                <?php echo $error; ?>
             </div>
         <?php endif; ?>
+
         <form method="POST">
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Usuario</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" name="username" type="text" placeholder="Usuario" required>
+                <label class="block text-black text-lg font-bold mb-2" for="username">Usuario</label>
+                <input class="shadow-lg border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
+                       id="username" name="username" type="text" placeholder="Usuario" required>
             </div>
+
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Contraseña</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" name="password" type="password" placeholder="Contraseña" required>
+                <label class="block text-black text-lg font-bold mb-2" for="password">Contraseña</label>
+                <input class="shadow-lg border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
+                       id="password" name="password" type="password" placeholder="Contraseña" required>
             </div>
+
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Rol</label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="role" name="role" required>
-                    <option value="">-----------</option>
+                <label class="block text-black text-lg font-bold mb-2" for="role">Rol</label>
+                <select class="shadow-lg border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
+                        id="role" name="role" required>
+                    <option value="">-------------</option>
                     <option value="super_admin">Super Administrador</option>
-                    <option value="coordinator">Coordinador</option>
                 </select>
             </div>
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Registrar</button>
+
+            <div class="flex flex-col items-center space-y-4">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline" 
+                        type="submit">
+                    Registrarse
+                </button>
+                <a href="dashboard.php" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full text-center">
+                    Regresar
+                </a>
             </div>
         </form>
     </div>
