@@ -2,21 +2,25 @@
 session_start();
 require 'includes/Database.php';
 require 'includes/User.php';
-require 'includes/functions.php'; // Asegúrate de incluir functions.php
+require 'includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user = new User();
-    $loggedInUser = $user->login($username, $password);
-
-    if ($loggedInUser) {
-        $_SESSION['user'] = $loggedInUser;
-        // Redirigir al dashboard después del login
-        redirect('dashboard.php');
+    if (isFieldEmpty($email) || isFieldEmpty($password)) {
+        $error = "Por favor, ingrese su email y contraseña";
     } else {
-        $error = "Usuario o contraseña incorrectos";
+        $user = new User();
+        $loggedInUser = $user->login($email, $password);
+
+        if ($loggedInUser) {
+            $_SESSION['user'] = $loggedInUser;
+            // Redirigir al dashboard después del login
+            redirect('dashboard.php');
+        } else {
+            $error = "Email o contraseña incorrectos";
+        }
     }
 }
 ?>
@@ -41,14 +45,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
         <form method="POST">
             <div class="mb-4">
-                <label class="block text-black text-lg font-bold mb-2" for="username">Usuario</label>
+                <label class="block text-black text-lg font-bold mb-2" for="email">Correo Electrónico</label>
                 <input class="shadow-lg appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                       id="username" name="username" type="text" placeholder="Usuario">
+                       id="email" name="email" type="email" placeholder="Correo Electrónico" required>
             </div>
             <div class="mb-6">
                 <label class="block text-black text-lg font-bold mb-2" for="password">Contraseña</label>
                 <input class="shadow-lg appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                       id="password" name="password" type="password" placeholder="Contraseña">
+                       id="password" name="password" type="password" placeholder="Contraseña" required>
             </div>
             <div class="flex flex-col items-center space-y-4">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" 

@@ -9,17 +9,17 @@ class Coordinator
         $this->db = Database::getInstance()->getConnection();
     }
 
-    public function createProgram($name)
+    public function createProgram($name, $centro_id)
     {
-        $stmt = $this->db->prepare("INSERT INTO programas (name) VALUES (?)");
-        $stmt->bind_param("s", $name);
+        $stmt = $this->db->prepare("INSERT INTO programas (name, centro_id) VALUES (?, ?)");
+        $stmt->bind_param("si", $name, $centro_id);
         return $stmt->execute();
     }
 
-    public function createAmbiente($name)
+    public function createAmbiente($name, $centro_id)
     {
-        $stmt = $this->db->prepare("INSERT INTO ambientes (name) VALUES (?)");
-        $stmt->bind_param("s", $name);
+        $stmt = $this->db->prepare("INSERT INTO ambientes (name, centro_id) VALUES (?, ?)");
+        $stmt->bind_param("si", $name, $centro_id);
         return $stmt->execute();
     }
 
@@ -30,18 +30,20 @@ class Coordinator
         return $stmt->execute();
     }
 
-    public function createInstructor($username, $password) {
+    public function createInstructor($username, $email, $password) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users (username, password, role) VALUES (?, ?, 'instructor')";
-        $stmt = $this->db->prepare($query);
-        return $stmt->execute([$username, $hashedPassword]);
+        $stmt = $this->db->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'instructor')");
+        $stmt->bind_param("sss", $username, $email, $hashedPassword);
+        return $stmt->execute();
     }
+
     public function createAprendiz($name, $ficha_id)
     {
         $stmt = $this->db->prepare("INSERT INTO aprendices (name, ficha_id) VALUES (?, ?)");
         $stmt->bind_param("si", $name, $ficha_id);
         return $stmt->execute();
     }
+
     public function getFichas()
     {
         $result = $this->db->query("SELECT * FROM fichas");
@@ -59,6 +61,13 @@ class Coordinator
         $result = $this->db->query("SELECT * FROM ambientes");
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getCentros()
+    {
+        $result = $this->db->query("SELECT * FROM centros");
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getReportes()
     {
         $query = "
@@ -72,6 +81,7 @@ class Coordinator
         $result = $this->db->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
     public function getReportesPorFicha($ficha_id) {
         $stmt = $this->db->prepare("
             SELECT 
@@ -98,4 +108,30 @@ class Coordinator
     
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    public function getProgramasByCentro($centro_id)
+{
+    $stmt = $this->db->prepare("SELECT * FROM programas WHERE centro_id = ?");
+    $stmt->bind_param("i", $centro_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+public function getAmbientesByCentro($centro_id)
+{
+    $stmt = $this->db->prepare("SELECT * FROM ambientes WHERE centro_id = ?");
+    $stmt->bind_param("i", $centro_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+public function getCentroById($centro_id)
+{
+    $stmt = $this->db->prepare("SELECT * FROM centros WHERE id = ?");
+    $stmt->bind_param("i", $centro_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
 }

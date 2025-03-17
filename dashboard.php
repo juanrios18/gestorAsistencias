@@ -41,7 +41,10 @@ if (isset($_GET['logout'])) {
             <?php if ($user['role'] == 'super_admin'): ?>
                 <h2 class="text-xl font-bold text-green-700 mb-4">Funciones de Super Administrador</h2>
                 <ul class="space-y-2">
-                    <li><a href="register.php" class="text-green-600 hover:text-green-800 font-medium">➜ Crear Usuario</a></li>
+                    <li><a href="create_regional.php" class="text-green-600 hover:text-green-800 font-medium">➜ Crear Regional</a></li>
+                    <li><a href="create_centro.php" class="text-green-600 hover:text-green-800 font-medium">➜ Crear Centro</a></li>
+                    <li><a href="register.php" class="text-green-600 hover:text-green-800 font-medium">➜ Crear Coordinador</a></li>
+                    <li><a href="view_regionales_centros.php" class="text-green-600 hover:text-green-800 font-medium">➜ Ver Regionales y Centros</a></li>  
                 </ul>
             <?php elseif ($user['role'] == 'coordinator'): ?>
                 <h2 class="text-xl font-bold text-green-700 mb-4">Funciones de Coordinador</h2>

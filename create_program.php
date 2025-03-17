@@ -7,10 +7,12 @@ require 'includes/Database.php';
 require 'includes/Coordinator.php';
 
 $coordinator = new Coordinator();
+$centros = $coordinator->getCentros();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
-    if ($coordinator->createProgram($name)) {
+    $centro_id = $_POST['centro_id'];
+    if ($coordinator->createProgram($name, $centro_id)) {
         redirect('dashboard.php');
     } else {
         $error = "Error al crear el programa";
@@ -46,6 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div>
                 <label class="block text-black text-lg font-bold mb-2" for="name">Nombre del Programa</label>
                 <input class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" id="name" name="name" type="text" placeholder="Nombre del Programa" required>
+            </div>
+            <div>
+                <label class="block text-black text-lg font-bold mb-2" for="centro_id">Centro</label>
+                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" id="centro_id" name="centro_id" required>
+                    <option value="">Seleccionar Centro</option>
+                    <?php foreach ($centros as $centro): ?>
+                        <option value="<?php echo $centro['id']; ?>"><?php echo $centro['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
             <div class="flex justify-between">
                 <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" type="submit">Crear Programa</button>

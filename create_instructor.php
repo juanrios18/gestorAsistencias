@@ -10,8 +10,9 @@ $coordinator = new Coordinator();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
-    if ($coordinator->createInstructor($username, $password)) {
+    if ($coordinator->createInstructor($username,$email, $password)) {
         redirect('dashboard.php');
     } else {
         $error = "Error al crear el instructor";
@@ -46,13 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Formulario -->
         <form method="POST">
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Usuario</label>
+                <label class="block text-black text-lg font-bold mb-2" for="username">Usuario</label>
                 <input class="shadow-sm border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500" 
                        id="username" name="username" type="text" placeholder="Usuario">
             </div>
+            <div class="mb-4">
+                <label class="block text-black text-lg font-bold mb-2" for="email">Correo Electrónico</label>
+                <input class="shadow-lg border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline" 
+                       id="email" name="email" type="email" placeholder="Correo Electrónico" required>
+            </div>
 
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Contraseña</label>
+                <label class="block text-black text-lg font-bold mb-2" for="password">Contraseña</label>
                 <input class="shadow-sm border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500" 
                        id="password" name="password" type="password" placeholder="Contraseña">
             </div>
