@@ -59,10 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         type="submit">
                     Iniciar Sesión
                 </button>
-                <p class="text-sm text-gray-600 text-center mt-4">¿No tienes una cuenta?</p>
-                <a href="register.php" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full text-center">
-                    Registrarse
-                </a>
             </div>
         </form>
     </div>
